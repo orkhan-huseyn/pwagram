@@ -9,3 +9,8 @@ if ('serviceWorker' in navigator) {
 } else {
   console.warn('Service workers are not supported by your browser.');
 }
+
+// when chrome wants to show 'add to home screen' banner
+window.addEventListener('beforeinstallpropmt', function(event) {
+  event.preventDefault();
+});
