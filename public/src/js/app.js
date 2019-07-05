@@ -1,3 +1,5 @@
+var deferredPrompt;
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw.js')
@@ -13,4 +15,6 @@ if ('serviceWorker' in navigator) {
 // when chrome wants to show 'add to home screen' banner
 window.addEventListener('beforeinstallpropmt', function(event) {
   event.preventDefault();
+  deferredPrompt = event;
+  return false;
 });
