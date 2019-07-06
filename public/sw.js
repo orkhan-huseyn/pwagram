@@ -1,22 +1,39 @@
+
 var CACHE_VERSION = 1;
 
 var CURRENT_CACHES = {
   static: 'static-cache-v' + CACHE_VERSION
 };
 
+var urlsToCache = [
+  '/',
+  '/index.html',
+  '/src/js/app.js',
+  '/src/js/feed.js',
+  '/src/js/promise.js',
+  '/src/js/fetch.js',
+  '/src/js/material.min.js',
+  '/src/css/app.css',
+  '/src/css/feed.css',
+  '/src/images/main-image.jpg',
+  'https://fonts.googleapis.com/css?family=Roboto:400,700',
+  'https://fonts.googleapis.com/icon?family=Material+Icons',
+  'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css'
+];
+
 self.addEventListener('install', function(event) {
-  console.log('[Service worker] Installing service worker....', event);
+  console.log('[Service worker] Installing service worker....');
   event.waitUntil(
     caches.open(CURRENT_CACHES['static'])
       .then(function(cache) {
         console.log('[Service Worker] Precaching App Shell');
-        cache.add('/src/js/app.js');
+        cache.addAll(urlsToCache);
       })
   );
 });
 
 self.addEventListener('activate', function(event) {
-  console.log('[Service worker] Activating service worker....', event);
+  console.log('[Service worker] Activating service worker....');
   return self.clients.claim();
 });
 
@@ -29,6 +46,6 @@ self.addEventListener('fetch', function(event) {
         }
 
         return fetch(event.request);
-      });
+      })
   );
 });
