@@ -2,7 +2,8 @@
 var CACHE_VERSION = 1;
 
 var CURRENT_CACHES = {
-  static: 'static-cache-v' + CACHE_VERSION
+  static: 'static-cache-v' + CACHE_VERSION,
+  dynamic: 'dynamic-cache-v' + CACHE_VERSION
 };
 
 var urlsToCache = [
@@ -45,7 +46,14 @@ self.addEventListener('fetch', function(event) {
           return response;
         }
 
-        return fetch(event.request);
+        return fetch(event.request)
+          .then(function(res) {
+            return caches.open(CURRENT_CACHES['dynamic'])
+              .then(function(cache) {
+                cache.put(event.request.url, res.clone());
+                return res;
+              });
+          });
       })
   );
 });
