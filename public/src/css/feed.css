@@ -29,3 +29,11 @@
   display: block;
   margin: 10px auto;
 }
+
+.shared-moment-card {
+  width: 100%;
+}
+
+#shared-moments {
+  padding: 0 1rem;
+}
